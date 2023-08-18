@@ -18,33 +18,38 @@ export class Customer {
   }
 
   public statement(): string {
-    let totalAmount: number = 0;
+    let totalCost: number = 0;
     let frequentRenterPoints: number = 0;
-    let result = "Rental Record for " + this.getName() + "\n";
+    let statementOutput = "Rental Record for " + this.getName() + "\n";
 
-    for (const each of this.rentals) {
-      let thisAmount = calculateRentalCost(each);
+    for (const rental of this.rentals) {
+      let rentalCost = calculateRentalCost(rental);
 
       // add frequent renter points
       frequentRenterPoints++;
       // add bonus for a two day new release rental
       if (
-        each.getMovie().getPriceCode() === Movie.NEW_RELEASE &&
-        each.getDaysRented() > 1
+        rental.getMovie().getPriceCode() === Movie.NEW_RELEASE &&
+        rental.getDaysRented() > 1
       )
         frequentRenterPoints++;
 
       // show figures for this rental
-      result +=
-        "\t" + each.getMovie().getTitle() + "\t" + thisAmount.toFixed(1) + "\n";
-      totalAmount += thisAmount;
+      statementOutput +=
+        "\t" +
+        rental.getMovie().getTitle() +
+        "\t" +
+        rentalCost.toFixed(1) +
+        "\n";
+      totalCost += rentalCost;
     }
 
     // add footer lines
-    result += "Amount owed is " + totalAmount.toFixed(1) + "\n";
-    result += "You earned " + frequentRenterPoints + " frequent renter points";
+    statementOutput += "Amount owed is " + totalCost.toFixed(1) + "\n";
+    statementOutput +=
+      "You earned " + frequentRenterPoints + " frequent renter points";
 
-    return result;
+    return statementOutput;
   }
 }
 
