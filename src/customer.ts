@@ -23,7 +23,7 @@ export class Customer {
     let statementOutput = "Rental Record for " + this.getName() + "\n";
 
     for (const rental of this.rentals) {
-      let rentalCost = calculateRentalCost(rental);
+      const rentalCost = calculateRentalCost(rental);
 
       // add frequent renter points
       frequentRenterPoints++;
