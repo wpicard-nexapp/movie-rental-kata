@@ -1,4 +1,8 @@
-import { Customer, calculateRentalCost } from "./customer";
+import {
+  Customer,
+  calculateFrequentRenterPoints,
+  calculateRentalCost,
+} from "./customer";
 import { Rental } from "./rental";
 import { Movie } from "./movie";
 
@@ -58,5 +62,20 @@ describe("calculateRentalCost", () => {
     },
   ])("should test", ({ rental, expectedCost }) => {
     expect(calculateRentalCost(rental)).toEqual(expectedCost);
+  });
+});
+
+describe("calculateFrequentRenterPoints", () => {
+  test("It works", () => {
+    const order = [
+      new Rental(new Movie("Jaws", Movie.REGULAR), 2),
+      new Rental(new Movie("Golden Eye", Movie.REGULAR), 3),
+      new Rental(new Movie("Short New", Movie.NEW_RELEASE), 1),
+      new Rental(new Movie("Long New", Movie.NEW_RELEASE), 2),
+      new Rental(new Movie("Bambi", Movie.CHILDRENS), 3),
+      new Rental(new Movie("Toy Story", Movie.CHILDRENS), 4),
+    ];
+
+    expect(calculateFrequentRenterPoints(order)).toEqual(7);
   });
 });

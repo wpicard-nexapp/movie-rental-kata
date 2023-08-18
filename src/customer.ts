@@ -19,20 +19,13 @@ export class Customer {
 
   public statement(): string {
     let totalCost: number = 0;
-    let frequentRenterPoints: number = 0;
+    const frequentRenterPoints: number = calculateFrequentRenterPoints(
+      this.rentals
+    );
     let statementOutput = "Rental Record for " + this.getName() + "\n";
 
     for (const rental of this.rentals) {
       const rentalCost = calculateRentalCost(rental);
-
-      // add frequent renter points
-      frequentRenterPoints++;
-      // add bonus for a two day new release rental
-      if (
-        rental.getMovie().getPriceCode() === Movie.NEW_RELEASE &&
-        rental.getDaysRented() > 1
-      )
-        frequentRenterPoints++;
 
       // show figures for this rental
       statementOutput +=
@@ -75,4 +68,21 @@ export function calculateRentalCost(rental: Rental): number {
   }
 
   return rentalCost;
+}
+
+export function calculateFrequentRenterPoints(order: Rental[]): number {
+  let frequentRenterPoints: number = 0;
+
+  for (const rental of order) {
+    // add frequent renter points
+    frequentRenterPoints++;
+    // add bonus for a two day new release rental
+    if (
+      rental.getMovie().getPriceCode() === Movie.NEW_RELEASE &&
+      rental.getDaysRented() > 1
+    )
+      frequentRenterPoints++;
+  }
+
+  return frequentRenterPoints;
 }
